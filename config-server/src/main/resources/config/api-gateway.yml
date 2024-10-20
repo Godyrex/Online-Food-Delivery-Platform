@@ -1,0 +1,31 @@
+server:
+  port: 8080
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+spring:
+  cloud:
+    gateway:
+      routes:
+        # Discovery Server Route
+        - id: discovery-server
+          uri: http://localhost:8761
+          predicates:
+          - Path=/eureka/**
+          filters:
+            - RewritePath=/eureka(?<remaining>.*), /${remaining}
+
+        # Demo Service Route
+        - id: demo
+          uri: lb://DEMO
+          predicates:
+          - Path=/demo/**
