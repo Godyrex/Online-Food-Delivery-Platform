@@ -1,7 +1,7 @@
-package com.example.demo.services;
+package com.example.springboot.services;
 
-import com.example.demo.entities.Order;
-import com.example.demo.repositories.OrderRepository;
+import com.example.springboot.entities.Order;
+import com.example.springboot.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

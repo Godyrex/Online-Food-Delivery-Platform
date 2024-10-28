@@ -1,6 +1,7 @@
-package com.example.demo.repositories;
+package com.example.springboot.repositories;
 
-import com.example.demo.entities.Product;
+
+import com.example.springboot.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {

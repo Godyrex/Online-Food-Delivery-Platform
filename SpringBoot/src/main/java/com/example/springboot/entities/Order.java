@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.example.springboot.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,7 +1,8 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.OrderItem;
-import com.example.demo.services.OrderItemService;
+
+import com.example.springboot.entities.OrderItem;
+import com.example.springboot.services.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
