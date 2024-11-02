@@ -1,0 +1,58 @@
+<div class="breadcrumb">
+    <h1>Create Menu</h1>
+    <ul>
+        <li><a href="#">Forms</a></li>
+        <li>Menu</li>
+    </ul>
+</div>
+
+<div class="separator-breadcrumb border-top"></div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="card-title mb-3">Menu Information</div>
+                <form [formGroup]="menuForm" (ngSubmit)="submit()">
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="restaurantName">Restaurant Name</label>
+                            <input type="text" formControlName="restaurantName" class="form-control" id="restaurantName" placeholder="Enter restaurant name">
+                            <div *ngIf="menuForm.get('restaurantName').invalid && menuForm.get('restaurantName').touched" class="error-text">
+                                Restaurant name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="cuisineType">Cuisine Type</label>
+                            <input type="text" formControlName="cuisineType" class="form-control" id="cuisineType" placeholder="Enter cuisine type">
+                        </div>
+
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="description">Description</label>
+                            <textarea formControlName="description" class="form-control" id="description" placeholder="Enter description"></textarea>
+                        </div>
+
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="menuType">Menu Type</label>
+                            <input type="text" formControlName="menuType" class="form-control" id="menuType" placeholder="Enter menu type (e.g., breakfast, lunch)">
+                        </div>
+
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="contactNumber">Contact Number</label>
+                            <input type="text" formControlName="contactNumber" class="form-control" id="contactNumber" placeholder="Enter contact number">
+                        </div>
+
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="averagePreparationTime">Average Preparation Time (minutes)</label>
+                            <input type="number" formControlName="averagePreparationTime" class="form-control" id="averagePreparationTime" placeholder="Enter average time">
+                        </div>
+
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary" [disabled]="menuForm.invalid">Create Menu</button>                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

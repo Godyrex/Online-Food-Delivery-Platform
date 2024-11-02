@@ -1,0 +1,71 @@
+<div *ngIf="menus && menus.length">
+    <h2>Menu List</h2>
+
+    <!-- Full text search input -->
+    <div class="mb-3 row px-3 py-3">
+        <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+        <div class="col-xs-3 col-sm-auto">
+            <input
+                    id="table-complete-search"
+                    type="text"
+                    class="form-control"
+                    placeholder="Search menus..."
+                    [(ngModel)]="searchTerm"
+            />
+        </div>
+    </div>
+
+    <!-- Menu table -->
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Restaurant Name</th>
+            <th scope="col">Cuisine Type</th>
+            <th scope="col">Description</th>
+            <th scope="col">Menu Type</th>
+            <th scope="col">Contact Number</th>
+            <th scope="col">Preparation Time</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let menu of filteredMenus(); let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ menu.restaurantName }}</td>
+            <td>{{ menu.cuisineType }}</td>
+            <td>{{ menu.description }}</td>
+            <td>{{ menu.menuType }}</td>
+            <td>{{ menu.contactNumber }}</td>
+            <td>{{ menu.averagePreparationTime }} mins</td>
+            <td>
+                <button class="btn btn-danger btn-sm" (click)="deleteMenu(menu.menuId)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination options -->
+    <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+                [collectionSize]="menus.length"
+                [(page)]="page"
+                [pageSize]="pageSize"
+                aria-label="Menu pagination"
+        ></ngb-pagination>
+
+        <select class="form-select" style="width: auto;" [(ngModel)]="pageSize">
+            <option [value]="2">2 items per page</option>
+            <option [value]="4">4 items per page</option>
+            <option [value]="6">6 items per page</option>
+        </select>
+    </div>
+</div>
+
+<!-- No menus available message -->
+<div *ngIf="!menus || menus.length === 0">
+    <p>No menus available.</p>
+</div>
+
+<!-- Button to navigate to the create menu form -->
+<button class="btn btn-primary mt-3" [routerLink]="['/menu/create']">Create New Menu</button>

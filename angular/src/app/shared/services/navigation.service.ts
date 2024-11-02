@@ -63,6 +63,12 @@ export class NavigationService {
             ]
         },
         {
+            name: 'Menu', // Add the "Menu" item here
+            type: 'link',
+            icon: 'i-Shop-4',
+            state: 'menu' // This should match the route in the router configuration
+        },
+        {
             name: 'UI kits',
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing.',
             type: 'dropDown',
