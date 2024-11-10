@@ -11,6 +11,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 export class AuthService {
   //Only for demo purpose
   authenticated = true;
+  user: any;
   private readonly tokenUrl = 'http://localhost:8080/realms/food-delivery/protocol/openid-connect/token';
   private readonly userUrl = 'http://localhost:8099';
   private readonly keycloakUrl = 'http://localhost:8080/realms/food-delivery/protocol/openid-connect';
@@ -75,7 +76,9 @@ export class AuthService {
 
     return this.http.post(`${this.userUrl}/register`, body);
   }
-
+ updatePassword(newPassword: string): Observable<any> {
+    return this.http.put(`${this.userUrl}/user/password`, newPassword);
+  }
   signout() {
     this.authenticated = false;
     this.store.removeItem("access_token");
@@ -99,7 +102,9 @@ export class AuthService {
 
     return this.http.post(this.tokenUrl, body.toString(), { headers }).pipe(
         tap((tokens: any) => {
-          this.store.setItem("access_token", tokens.access_token);
+            const token = tokens.access_token;
+            this.user = JSON.parse(atob(token.split('.')[1]));
+            this.store.setItem("access_token", tokens.access_token);
           this.store.setItem("refresh_token", tokens.refresh_token);
         }),
         catchError(error => {

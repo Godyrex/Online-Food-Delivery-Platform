@@ -12,9 +12,9 @@ export class HeaderSidebarCompactComponent implements OnInit {
   notifications: any[];
 
   constructor(
-    private navService: NavigationService,
-    public searchService: SearchService,
-    private auth: AuthService
+      private navService: NavigationService,
+      public searchService: SearchService,
+      protected auth: AuthService
   ) {
     this.notifications = [
       {

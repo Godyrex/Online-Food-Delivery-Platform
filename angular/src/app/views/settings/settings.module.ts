@@ -5,11 +5,13 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import {SharedComponentsModule} from "../../shared/components/shared-components.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import { AccountComponent } from './account/account.component';
 
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,
+    AccountComponent
   ],
     imports: [
         CommonModule,

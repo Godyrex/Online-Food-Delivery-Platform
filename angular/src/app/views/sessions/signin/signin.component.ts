@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { SharedAnimations } from 'src/app/shared/animations/shared-animations';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../../shared/services/auth.service';
-import { Router, RouteConfigLoadStart, ResolveStart, RouteConfigLoadEnd, ResolveEnd } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {SharedAnimations} from 'src/app/shared/animations/shared-animations';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../../../shared/services/auth.service';
+import {ResolveEnd, ResolveStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router} from '@angular/router';
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -47,6 +47,8 @@ export class SigninComponent implements OnInit {
         this.password = this.signinForm.get('password').value;
         this.auth.login(this.username, this.password).subscribe(response => {
             if (response) {
+                const token = response.access_token;
+                this.auth.user = JSON.parse(atob(token.split('.')[1])); // Save the decoded user information in AuthService
                 this.router.navigate(['/dashboard/v1']); // Navigate to a protected route after successful login
             } else {
                 this.toastr.error('Invalid username or password');

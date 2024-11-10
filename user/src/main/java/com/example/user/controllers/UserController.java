@@ -96,5 +96,39 @@ public class UserController {
             return new ResponseEntity<>("Authorization header is missing or invalid", HttpStatus.UNAUTHORIZED);
         }
     }
+    @PutMapping("/password")
+    public ResponseEntity<String> updateUserPassword(HttpServletRequest request, @RequestBody String passwordRequest) {
+
+        // Extract the Authorization header
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            DecodedJWT jwt = JWT.decode(token);
+            String userId = jwt.getSubject(); // Extract the 'sub' claim
+            log.info("Updating password for user: {}", userId);
+
+            String adminToken = getAdminAccessToken();
+            log.info("Admin access token: {}", adminToken);
+            String url = keycloakAdminUrl + "/admin/realms/" + keycloakRealm + "/users/" + userId + "/reset-password";
+            log.info("URL: {}", url);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + adminToken);
+            headers.set("Content-Type", "application/json");
+
+            // Create the password update request body
+            Map<String, String> passwordUpdate = Map.of(
+                    "type", "password",
+                    "temporary", "false",
+                    "value", passwordRequest
+            );
+
+            HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(passwordUpdate, headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String.class);
+            return new ResponseEntity<>(response.getBody(), response.getStatusCode());
+        } else {
+            return new ResponseEntity<>("Authorization header is missing or invalid", HttpStatus.UNAUTHORIZED);
+        }
+    }
 }
 
