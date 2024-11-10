@@ -15,8 +15,28 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/food-delivery
+          jwk-set-uri: http://localhost:8080/realms/food-delivery/protocol/openid-connect/certs
+        client:
+            registration:
+                keycloak:
+                client-id: api-gateway
+                client-secret: NowvNnxwcLOUtpslfPz3OTTAUzTNWfAj
+                provider: keycloak
+                scope: openid
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]': # Applies to all routes
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
       routes:
         # Discovery Server Route
         - id: discovery-server
@@ -25,12 +45,15 @@ spring:
           - Path=/eureka/**
           filters:
             - RewritePath=/eureka(?<remaining>.*), /${remaining}
-
         # Demo Service Route
         - id: demo
           uri: lb://DEMO
           predicates:
           - Path=/demo/**
+        - id: user
+          uri: lb://USER
+          predicates:
+          - Path=/user/**
 # Keycloak configuration
 keycloak:
   auth-server-url: http://localhost:8080
