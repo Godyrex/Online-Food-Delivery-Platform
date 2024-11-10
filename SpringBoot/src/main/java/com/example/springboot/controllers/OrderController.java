@@ -1,5 +1,4 @@
-package com.example.demo.controllers;
-
+package com.example.springboot.controllers;
 import com.example.springboot.entities.Order;
 import com.example.springboot.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-    @RestController
-    @RequestMapping("/api/orders")
+@RestController
+@RequestMapping("/api/orders")
     public class OrderController {
         private final OrderService orderService;
 

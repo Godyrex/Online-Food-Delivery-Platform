@@ -20,7 +20,7 @@ spring:
         - id: discovery-server
           uri: http://localhost:8761
           predicates:
-          - Path=/eureka/**
+            - Path=/eureka/**
           filters:
             - RewritePath=/eureka(?<remaining>.*), /${remaining}
 
@@ -28,4 +28,4 @@ spring:
         - id: demo
           uri: lb://DEMO
           predicates:
-          - Path=/demo/**
+            - Path=/demo/**

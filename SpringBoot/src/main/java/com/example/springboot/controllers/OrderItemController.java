@@ -1,9 +1,15 @@
-package com.example.demo.controllers;
+package com.example.springboot.controllers;
 
 
+import com.example.springboot.entities.Order;
 import com.example.springboot.entities.OrderItem;
+import com.example.springboot.entities.Product;
+import com.example.springboot.repositories.OrderItemRepository;
+import com.example.springboot.repositories.OrderRepository;
+import com.example.springboot.repositories.ProductRepository;
 import com.example.springboot.services.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +19,16 @@ import java.util.List;
 @RequestMapping("/api/order-items")
 public class OrderItemController {
     private final OrderItemService orderItemService;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Autowired
-    public OrderItemController(OrderItemService orderItemService) {
+    public OrderItemController(OrderItemService orderItemService, OrderRepository orderRepository, ProductRepository productRepository, OrderItemRepository orderItemRepository) {
         this.orderItemService = orderItemService;
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     @GetMapping
@@ -31,8 +43,18 @@ public class OrderItemController {
     }
 
     @PostMapping
-    public OrderItem createOrderItem(@RequestBody OrderItem orderItem) {
-        return orderItemService.createOrderItem(orderItem);
+    public ResponseEntity<OrderItem> createOrderItem(@RequestBody OrderItem orderItem) {
+        Order order = orderRepository.findById(orderItem.getOrder().getId())
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        Product product = productRepository.findById(orderItem.getProduct().getId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        OrderItem newOrderItem = new OrderItem();
+        newOrderItem.setOrder(order);
+        newOrderItem.setProduct(product);
+        newOrderItem.setQuantity(orderItem.getQuantity());
+        newOrderItem.setPrice(orderItem.getPrice());
+        orderItemRepository.save(newOrderItem);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newOrderItem);
     }
 
     @PutMapping("/{id}")

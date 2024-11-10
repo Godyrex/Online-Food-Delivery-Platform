@@ -1,4 +1,4 @@
-package com.example.demo.controllers;
+package com.example.springboot.controllers;
 
 
 import com.example.springboot.entities.Product;
