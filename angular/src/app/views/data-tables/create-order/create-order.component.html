@@ -1,69 +1,61 @@
-<div class="gull-card">
-    <div class="gull-card-header">
-        <h4>Create Order</h4>
-    </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Create Order Item</h5>
+            </div>
+            <div class="card-body">
+                <!-- Form to create order item -->
+                <form (ngSubmit)="createOrderItem()">
+                    <!-- Order Selection -->
+                    <div class="form-group">
+                        <label for="orderSelect">Order</label>
+                        <select class="form-control" id="orderSelect" [(ngModel)]="selectedOrderId" name="orderId" (change)="onProductSelect()">
+                            <option *ngFor="let order of orders" [value]="order.id">{{ order.id }}</option>
+                        </select>
+                    </div>
 
-    <div class="gull-card-body">
-        <!-- Product selection and adding items to the order -->
-        <div class="form-group">
-            <label for="product">Product</label>
-            <select class="form-control" [(ngModel)]="selectedProduct" id="product" name="product">
-                <option *ngFor="let product of products" [ngValue]="product">
-                    {{ product.name }} - ${{ product.price }}
-                </option>
-            </select>
-        </div>
+                    <!-- Product Selection -->
+                    <div class="form-group">
+                        <label for="productSelect">Product</label>
+                        <select class="form-control" id="productSelect" [(ngModel)]="selectedProductId" name="productId" (change)="onProductSelect()">
+                            <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+                        </select>
+                    </div>
 
-        <div class="form-group">
-            <label for="quantity">Quantity</label>
-            <input
-                    type="number"
-                    class="form-control"
-                    [(ngModel)]="quantity"
-                    id="quantity"
-                    placeholder="Enter quantity"
-                    min="1"
-                    required>
-        </div>
+                    <!-- Quantity -->
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" [(ngModel)]="quantity" name="quantity" min="1" required />
+                    </div>
 
-        <button
-                class="btn btn-primary"
-                (click)="addToOrder(selectedProduct, quantity)"
-                [disabled]="!selectedProduct || quantity <= 0">
-            Add to Order
-        </button>
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" class="form-control" id="price" [(ngModel)]="price" name="price" [value]="selectedProductPrice" readonly />
+                    </div>
 
-        <!-- Displaying the added products -->
-        <div *ngIf="order.items.length > 0" class="mt-4">
-            <h5>Order Items</h5>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of order.items">
-                    <td>{{ item.productId | productName: products }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.price | currency }}</td>
-                    <td>{{ item.quantity * item.price | currency }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary mt-3">Create Order Item</button>
+                </form>
 
-        <!-- Submit Order Button -->
-        <div class="text-center mt-4">
-            <button
-                    class="btn btn-success"
-                    (click)="submitOrder()"
-                    [disabled]="order.items.length === 0">
-                Submit Order
-            </button>
+                <!-- Displaying the Created Order Items -->
+                <h3 class="mt-5">Created Order Items</h3>
+                <div *ngIf="orderItems.length > 0">
+                    <ul>
+                        <li *ngFor="let item of orderItems">
+                            <strong>Order ID:</strong> {{ item.orderId }} |
+                            <strong>Product ID:</strong> {{ item.productId }} |
+                            <strong>Item ID:</strong> {{ item.id }} |
+                            <strong>Quantity:</strong> {{ item.quantity }} |
+                            <strong>Price:</strong> ${{ item.price }}
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="orderItems.length === 0">
+                    <p>No order items created yet.</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

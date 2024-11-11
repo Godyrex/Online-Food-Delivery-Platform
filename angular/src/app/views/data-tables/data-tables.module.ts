@@ -12,6 +12,7 @@ import { ListPaginationComponent } from './list-pagination/list-pagination.compo
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductComponent } from './product/product.component';
 import { CreateOrderComponent } from './create-order/create-order.component';
+import { OrderListComponent } from './order-list/order-list.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,6 @@ import { CreateOrderComponent } from './create-order/create-order.component';
     NgbModule,
     DataTablesRoutingModule
   ],
-  declarations: [FullscreenTableComponent, PagingTableComponent, FilterTableComponent, ListPaginationComponent, ProductComponent, CreateOrderComponent]
+  declarations: [FullscreenTableComponent, PagingTableComponent, FilterTableComponent, ListPaginationComponent, ProductComponent, CreateOrderComponent, OrderListComponent]
 })
 export class DataTablesModule { }

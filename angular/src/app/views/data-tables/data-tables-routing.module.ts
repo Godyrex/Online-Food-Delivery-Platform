@@ -7,6 +7,7 @@ import { ListPaginationComponent } from './list-pagination/list-pagination.compo
 import {ProductComponent} from "./product/product.component";
 import {CreateOrderComponent} from "./create-order/create-order.component";
 import {CreateProductComponent} from "../forms/create-product/create-product.component";
+import {OrderListComponent} from "./order-list/order-list.component";
 
 const routes: Routes = [
   {
@@ -29,13 +30,17 @@ const routes: Routes = [
       path: 'Product',
         component: ProductComponent
     },
-    {
-      path:'createOrder',
-        component:CreateOrderComponent
-    },
   {
     path:'createProduct',
     component:CreateProductComponent
+  },
+  {
+    path:'createOrder',
+    component:CreateOrderComponent
+  },
+  {
+    path:'orderList',
+    component:OrderListComponent
   },
 
 ];

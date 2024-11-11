@@ -22,7 +22,6 @@ public class OrderItem {
     @JoinColumn(name = "product_id")
     @JsonIgnore
     private Product product;
-
     private int quantity;
     private double price;
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {OrderItemDTO} from "../../views/data-tables/create-order/create-order.component";
 
 export interface Order {
   id: number;
@@ -12,8 +13,9 @@ export interface Order {
 
 // OrderItem model
 export interface OrderItem {
-  id: number;
+  id?: number;
   productId: number;
+  orderId: number;
   quantity: number;
   price: number;
 }
@@ -23,6 +25,7 @@ export interface OrderItem {
 export class OrderService {
 
   private baseUrl = 'http://localhost:8081/customerOrder/api/orders';
+  private orderItemsUrl = 'http://localhost:8081/customerOrder/api/order-items';
 
   constructor(private http: HttpClient) { }
 
@@ -32,6 +35,13 @@ export class OrderService {
   }
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.baseUrl);
+  }
+  createOrderItem(orderItemDTO: OrderItemDTO): Observable<any> {
+    return this.http.post<any>(this.orderItemsUrl, orderItemDTO, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
   }
   getOrder(): Observable<Order> {
     return this.http.get<Order>(this.baseUrl);

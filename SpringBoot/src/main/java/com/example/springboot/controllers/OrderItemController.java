@@ -3,6 +3,7 @@ package com.example.springboot.controllers;
 
 import com.example.springboot.entities.Order;
 import com.example.springboot.entities.OrderItem;
+import com.example.springboot.entities.OrderItemDTO;
 import com.example.springboot.entities.Product;
 import com.example.springboot.repositories.OrderItemRepository;
 import com.example.springboot.repositories.OrderRepository;
@@ -43,17 +44,18 @@ public class OrderItemController {
         return orderItem != null ? ResponseEntity.ok(orderItem) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<OrderItem> createOrderItem(@RequestBody OrderItem orderItem) {
-        Order order = orderRepository.findById(orderItem.getOrder().getId())
+    @PostMapping()
+    public ResponseEntity<OrderItem> createOrderItem(@RequestBody OrderItemDTO orderItemDTO) {
+        Order order = orderRepository.findById(orderItemDTO.getOrderId())
                 .orElseThrow(() -> new RuntimeException("Order not found"));
-        Product product = productRepository.findById(orderItem.getProduct().getId())
+        Product product = productRepository.findById(orderItemDTO.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+
         OrderItem newOrderItem = new OrderItem();
         newOrderItem.setOrder(order);
         newOrderItem.setProduct(product);
-        newOrderItem.setQuantity(orderItem.getQuantity());
-        newOrderItem.setPrice(orderItem.getPrice());
+        newOrderItem.setQuantity(orderItemDTO.getQuantity());
+        newOrderItem.setPrice(orderItemDTO.getPrice());
         orderItemRepository.save(newOrderItem);
         return ResponseEntity.status(HttpStatus.CREATED).body(newOrderItem);
     }

@@ -130,6 +130,7 @@ export class NavigationService {
                 { icon: 'i-Filter-2', name: 'Filter', state: '/tables/filter', type: 'link' },
                 { icon: 'i-Filter-2', name: 'Filter', state: '/tables/Product', type: 'link' },
                 { icon: 'i-Filter-2', name: 'Filter', state: '/tables/createOrder', type: 'link' },
+                { icon: 'i-Filter-2', name: 'Filter', state: '/tables/orderList', type: 'link' },
             ]
         },
         {

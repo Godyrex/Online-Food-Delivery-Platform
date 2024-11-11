@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Order List</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer ID</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                            <th>Items</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let order of orders">
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.customerId }}</td>
+                            <td>{{ order.orderDate | date }}</td>
+                            <td>{{ order.status }}</td>
+                            <td>
+                                <ul>
+                                    <li *ngFor="let item of order.items">
+                                        Product ID: {{ item.productId }} | Quantity: {{ item.quantity }} | Price: {{ item.price | currency }}
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
