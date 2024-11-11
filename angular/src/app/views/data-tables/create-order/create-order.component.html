@@ -1,0 +1,69 @@
+<div class="gull-card">
+    <div class="gull-card-header">
+        <h4>Create Order</h4>
+    </div>
+
+    <div class="gull-card-body">
+        <!-- Product selection and adding items to the order -->
+        <div class="form-group">
+            <label for="product">Product</label>
+            <select class="form-control" [(ngModel)]="selectedProduct" id="product" name="product">
+                <option *ngFor="let product of products" [ngValue]="product">
+                    {{ product.name }} - ${{ product.price }}
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input
+                    type="number"
+                    class="form-control"
+                    [(ngModel)]="quantity"
+                    id="quantity"
+                    placeholder="Enter quantity"
+                    min="1"
+                    required>
+        </div>
+
+        <button
+                class="btn btn-primary"
+                (click)="addToOrder(selectedProduct, quantity)"
+                [disabled]="!selectedProduct || quantity <= 0">
+            Add to Order
+        </button>
+
+        <!-- Displaying the added products -->
+        <div *ngIf="order.items.length > 0" class="mt-4">
+            <h5>Order Items</h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of order.items">
+                    <td>{{ item.productId | productName: products }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.price | currency }}</td>
+                    <td>{{ item.quantity * item.price | currency }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Submit Order Button -->
+        <div class="text-center mt-4">
+            <button
+                    class="btn btn-success"
+                    (click)="submitOrder()"
+                    [disabled]="order.items.length === 0">
+                Submit Order
+            </button>
+        </div>
+    </div>
+</div>

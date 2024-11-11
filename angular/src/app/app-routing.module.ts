@@ -4,6 +4,10 @@ import { AuthLayoutComponent } from './shared/components/layouts/auth-layout/aut
 import { AuthGaurd } from './shared/services/auth.gaurd';
 import { BlankLayoutComponent } from './shared/components/layouts/blank-layout/blank-layout.component';
 import { AdminLayoutSidebarCompactComponent } from './shared/components/layouts/admin-layout-sidebar-compact/admin-layout-sidebar-compact.component';
+import {EditProductComponent} from "./views/forms/edit-product/edit-product.component";
+import {CreateProductComponent} from "./views/forms/create-product/create-product.component";
+import {ProductComponent} from "./views/data-tables/product/product.component";
+import {ProductFormComponent} from "./views/forms/product-form/product-form.component";
 
 const adminRoutes: Routes = [
     {
@@ -49,7 +53,13 @@ const adminRoutes: Routes = [
     {
         path: 'icons',
         loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
-    }
+    },
+    { path: 'products/new', component: ProductFormComponent },
+    { path: 'products/edit/:id', component: ProductFormComponent },
+    { path: 'products/create', component: CreateProductComponent },
+    { path: 'products/edit/:id', component: EditProductComponent },
+    { path: 'products', component: ProductComponent },
+    { path: '', redirectTo: '/products', pathMatch: 'full' }
   ];
 
 const routes: Routes = [

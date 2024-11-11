@@ -1,0 +1,54 @@
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h3 class="card-title">Create New Product</h3>
+        <button class="btn btn-light btn-icon" (click)="router.navigate(['/products'])">
+            <i class="fa fa-arrow-left"></i> <!-- Using Font Awesome or another icon set for the back icon -->
+        </button>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form">
+            <!-- Product Name Field -->
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" placeholder="Enter product name" class="form-control" formControlName="name">
+                <small *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="text-danger">
+                    Name is required
+                </small>
+            </div>
+
+            <!-- Product Description Field -->
+            <div class="form-group">
+                <label for="productDescription">Description</label>
+                <textarea id="productDescription" placeholder="Enter product description" class="form-control" formControlName="description"></textarea>
+                <small *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched" class="text-danger">
+                    Description is required
+                </small>
+            </div>
+
+            <!-- Product Price Field -->
+            <div class="form-group">
+                <label for="productPrice">Price</label>
+                <input type="number" id="productPrice" placeholder="Enter price" class="form-control" formControlName="price">
+                <small *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="text-danger">
+                    Valid price is required
+                </small>
+            </div>
+
+            <!-- Product Category Field -->
+            <div class="form-group">
+                <label for="productCategory">Category</label>
+                <input type="text" id="productCategory" placeholder="Enter product category" class="form-control" formControlName="category">
+                <small *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched" class="text-danger">
+                    Category is required
+                </small>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid">
+                    Create Product
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

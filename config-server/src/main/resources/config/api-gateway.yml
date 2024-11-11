@@ -24,8 +24,8 @@ spring:
           filters:
             - RewritePath=/eureka(?<remaining>.*), /${remaining}
 
-        # Demo Service Route
-        - id: demo
-          uri: lb://DEMO
+        # SpringBoot Service Route (From Eureka)
+        - id: SpringBoot
+          uri: lb://springboot
           predicates:
-            - Path=/demo/**
+            - Path=/SpringBoot/**

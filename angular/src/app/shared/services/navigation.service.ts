@@ -114,7 +114,10 @@ export class NavigationService {
                 { icon: 'i-File-Edit', name: 'Input Mask', state: '/forms/input-mask', type: 'link' },
                 { icon: 'i-Tag-2', name: 'Tag Input', state: '/forms/tag-input', type: 'link' },
                 { icon: 'i-Width-Window', name: 'Wizard', state: '/forms/wizard', type: 'link' },
-                { icon: 'i-Crop-2', name: 'Image Cropper', state: '/forms/img-cropper', type: 'link' },
+                { icon: 'i-Crop-2', name: 'Image Cropper', state: '/forms/Product', type: 'link' },
+                { icon: 'i-Crop-2', name: 'Image Cropper', state: '/forms/editProduct', type: 'link' },
+                { icon: 'i-Crop-2', name: 'Image Cropper', state: '/forms/createProduct', type: 'link' },
+
             ]
         },
         {
@@ -127,6 +130,8 @@ export class NavigationService {
                 { icon: 'i-Full-View-Window', name: 'Fullscreen', state: '/tables/full', type: 'link' },
                 { icon: 'i-Code-Window', name: 'Paging', state: '/tables/paging', type: 'link' },
                 { icon: 'i-Filter-2', name: 'Filter', state: '/tables/filter', type: 'link' },
+                { icon: 'i-Filter-2', name: 'Filter', state: '/tables/Product', type: 'link' },
+                { icon: 'i-Filter-2', name: 'Filter', state: '/tables/createOrder', type: 'link' },
             ]
         },
         {

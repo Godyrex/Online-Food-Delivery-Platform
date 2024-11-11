@@ -4,6 +4,8 @@ import { FullscreenTableComponent } from './fullscreen-table/fullscreen-table.co
 import { PagingTableComponent } from './paging-table/paging-table.component';
 import { FilterTableComponent } from './filter-table/filter-table.component';
 import { ListPaginationComponent } from './list-pagination/list-pagination.component';
+import {ProductComponent} from "./product/product.component";
+import {CreateOrderComponent} from "./create-order/create-order.component";
 
 const routes: Routes = [
   {
@@ -21,7 +23,15 @@ const routes: Routes = [
   {
     path: 'filter',
     component: FilterTableComponent
-  }
+  },
+    {
+      path: 'Product',
+        component: ProductComponent
+    },
+    {
+      path:'createOrder',
+        component:CreateOrderComponent
+    }
 ];
 
 @NgModule({
