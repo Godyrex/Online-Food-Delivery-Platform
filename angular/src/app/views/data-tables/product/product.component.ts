@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Product, ProductService} from "../../../shared/services/product.service";
 import {OrderItem} from "../../../shared/services/order.service";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-product',
@@ -11,7 +12,7 @@ import {Router} from "@angular/router";
 export class ProductComponent {
   products: Product[] = [];
 
-  constructor(private productService: ProductService,private router: Router) {}
+  constructor(private productService: ProductService,private router: Router,   private toastr: ToastrService ) {}
 
   ngOnInit(): void {
 
@@ -25,14 +26,23 @@ export class ProductComponent {
   }
 
   createProduct() {
-    this.router.navigate(['/create-product']);
+    this.router.navigate(['products/create']);
   }
 
   editProduct(product: Product) {
-    // Navigate to product form for editing the selected product
+    this.router.navigate([`/products/edit/${product.id}`]);
   }
 
-  deleteProduct(id: number) {
-    this.productService.deleteProduct(id).subscribe(() => this.loadProducts());
+  deleteProduct(id: number): void {
+    this.productService.deleteProduct(id).subscribe({
+      next: () => {
+        this.toastr.success('Product deleted successfully!', 'Success');
+        this.loadProducts(); // Reload products
+      },
+      error: (err) => {
+        this.toastr.error('Error deleting product', 'Error');
+        console.error('Error deleting product', err);
+      }
+    });
   }
 }

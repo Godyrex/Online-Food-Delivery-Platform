@@ -114,8 +114,6 @@ export class NavigationService {
                 { icon: 'i-File-Edit', name: 'Input Mask', state: '/forms/input-mask', type: 'link' },
                 { icon: 'i-Tag-2', name: 'Tag Input', state: '/forms/tag-input', type: 'link' },
                 { icon: 'i-Width-Window', name: 'Wizard', state: '/forms/wizard', type: 'link' },
-                { icon: 'i-Crop-2', name: 'Image Cropper', state: '/forms/Product', type: 'link' },
-                { icon: 'i-Crop-2', name: 'Image Cropper', state: '/forms/editProduct', type: 'link' },
                 { icon: 'i-Crop-2', name: 'Image Cropper', state: '/forms/createProduct', type: 'link' },
 
             ]

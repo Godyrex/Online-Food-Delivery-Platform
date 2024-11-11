@@ -6,6 +6,7 @@ import { FilterTableComponent } from './filter-table/filter-table.component';
 import { ListPaginationComponent } from './list-pagination/list-pagination.component';
 import {ProductComponent} from "./product/product.component";
 import {CreateOrderComponent} from "./create-order/create-order.component";
+import {CreateProductComponent} from "../forms/create-product/create-product.component";
 
 const routes: Routes = [
   {
@@ -31,7 +32,12 @@ const routes: Routes = [
     {
       path:'createOrder',
         component:CreateOrderComponent
-    }
+    },
+  {
+    path:'createProduct',
+    component:CreateProductComponent
+  },
+
 ];
 
 @NgModule({
