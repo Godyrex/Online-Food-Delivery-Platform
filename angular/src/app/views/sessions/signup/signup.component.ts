@@ -3,6 +3,7 @@ import { SharedAnimations } from 'src/app/shared/animations/shared-animations';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {AuthService} from "../../../shared/services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +15,9 @@ export class SignupComponent implements OnInit {
 
   constructor(   private authService: AuthService,
                  private formBuilder: FormBuilder,
-                 private toastr: ToastrService, ) { }
+                 private toastr: ToastrService,
+                 private router : Router
+  ) { }
   signupForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
         username: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(3)]],
@@ -53,6 +56,10 @@ export class SignupComponent implements OnInit {
     );
   }
   ngOnInit() {
+      if(this.authService.authenticated){
+            this.toastr.info('You are already logged in');
+          this.router.navigateByUrl("/dashboard/v1");
+      }
     this.signupForm.controls.password.valueChanges.subscribe(() => {
       this.signupForm.controls.confirmPassword.updateValueAndValidity();
     });

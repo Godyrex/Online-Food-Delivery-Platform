@@ -25,6 +25,10 @@ export class SigninComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        if(this.auth.authenticated){
+            this.toastr.info('You are already logged in');
+            this.router.navigateByUrl("/dashboard/v1");
+        }
         this.router.events.subscribe(event => {
             if (event instanceof RouteConfigLoadStart || event instanceof ResolveStart) {
                 this.loadingText = 'Loading Dashboard Module...';

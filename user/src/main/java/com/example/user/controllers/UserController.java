@@ -15,6 +15,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -79,7 +80,8 @@ public class UserController {
             DecodedJWT jwt = JWT.decode(token);
             String userId = jwt.getSubject(); // Extract the 'sub' claim
             log.info("Updating user profile for user: {}", userId);
-
+          //  profile.getAttributes().put("formatted", "123 Main St");
+         //   profile.getAttributes().put("phoneNumber", "98766159");
             String adminToken = getAdminAccessToken();
             log.info("Admin access token: {}", adminToken);
             String url = keycloakAdminUrl + "/admin/realms/" + keycloakRealm + "/users/" + userId;

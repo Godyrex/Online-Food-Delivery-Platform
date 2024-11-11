@@ -20,6 +20,9 @@ export class ProfileComponent implements OnInit{
   informationForm = this.formBuilder.group({
         name: [' ', [Validators.required, Validators.maxLength(20), Validators.minLength(3)]],
         lastname: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(3)]],
+        email: ['', [Validators.required, Validators.email]],
+        address: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(3)]],
+        phone: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(6)]],
       }
   );
   ngOnInit(): void {
@@ -45,12 +48,31 @@ export class ProfileComponent implements OnInit{
                 name: response['given_name'],
                 });
             }
+            if(response['email']){
+                this.informationForm.patchValue({
+                    email: response['email'],
+                });
+            }
+            if(response['phone_number']){
+                this.informationForm.patchValue({
+                    phone: response['phone_number'],
+                });
+            }
+            if (response['address'] && response['address']['formatted']) {
+                this.informationForm.patchValue({
+                    address: response['address']['formatted'],
+                });
+            }
         }
     )
     }
     updateProfile() {
       this.loading = true;
-        this.auth.updateUserProfile(this.informationForm.value.name, this.informationForm.value.lastname)
+       const attributes: { [key: string]: string }= {
+           formatted: this.informationForm.value.address,
+           phoneNumber: this.informationForm.value.phone
+       };
+        this.auth.updateUserProfile(this.informationForm.value.name, this.informationForm.value.lastname,this.informationForm.value.email,attributes)
             .subscribe({
                 next: () => {
                     this.loading = false;

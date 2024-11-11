@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
 import { LocalStoreService } from "./local-store.service";
 import { Router } from "@angular/router";
 import {Observable, of, throwError} from "rxjs";
 import {catchError, delay, map, tap} from "rxjs/operators";
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Injectable} from "@angular/core";
 
 @Injectable({
   providedIn: "root"
@@ -34,12 +34,13 @@ export class AuthService {
         })
     );
   }
-  updateUserProfile(firstName: string, lastName: string): Observable<any> {
+  updateUserProfile(firstName: string, lastName: string,email: string,attributes: { [key: string]: string }): Observable<any> {
 
-    const body = {
-      firstName,
-      lastName
-    };
+      const body: any = {};
+      if (firstName) body.firstName = firstName;
+      if (lastName) body.lastName = lastName;
+      if (email) body.email = email;
+        if (attributes) body.attributes = attributes;
 
     return this.http.put('http://localhost:8099/user/profile', body);
   }
@@ -50,7 +51,7 @@ export class AuthService {
     body.set('username', username);
     body.set('password', password);
     body.set('grant_type', 'password');
-    body.set('scope', 'openid email profile');
+    body.set('scope', 'openid email profile address phone');
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
