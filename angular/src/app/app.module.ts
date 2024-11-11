@@ -12,10 +12,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { MenuFormComponent } from './components/menu-form/menu-form.component';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import { MenuEditComponent } from './components/menu-edit/menu-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+      // MenuEditComponent,
     // MenuFormComponent,
     // MenuListComponent
   ],

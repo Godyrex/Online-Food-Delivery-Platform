@@ -39,6 +39,7 @@
             <td>{{ menu.contactNumber }}</td>
             <td>{{ menu.averagePreparationTime }} mins</td>
             <td>
+                <button class="btn btn-primary btn-sm" (click)="editMenu(menu.menuId)">Edit</button>
                 <button class="btn btn-danger btn-sm" (click)="deleteMenu(menu.menuId)">Delete</button>
             </td>
         </tr>

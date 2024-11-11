@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService, Menu } from '../../services/menu.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-list',
@@ -12,7 +13,7 @@ export class MenuListComponent implements OnInit {
   page: number = 1;
   pageSize: number = 4;
 
-  constructor(private menuService: MenuService) {}
+  constructor(private menuService: MenuService, private router: Router) {}
 
   ngOnInit() {
     this.menuService.getAllMenus().subscribe((data: Menu[]) => {
@@ -42,5 +43,8 @@ export class MenuListComponent implements OnInit {
           (error) => console.error('Error deleting menu:', error)
       );
     }
+  }
+  editMenu(menuId: number) {
+    this.router.navigate(['/menu/edit', menuId]);
   }
 }
