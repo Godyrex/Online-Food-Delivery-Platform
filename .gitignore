@@ -1,2 +1,7 @@
 
 /.idea
+user/.gitattributes
+user/.mvn/wrapper/maven-wrapper.properties
+user/mvnw
+user/mvnw.cmd
+angular/package-lock.json
