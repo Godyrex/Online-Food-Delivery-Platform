@@ -54,10 +54,6 @@ spring:
           uri: lb://USER
           predicates:
           - Path=/user/**
-              - id: reservation
-              uri: lb://reservation
-              predicates:
-                - Path=/reservations/**
 # Keycloak configuration
 keycloak:
   auth-server-url: http://localhost:8080
