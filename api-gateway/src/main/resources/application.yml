@@ -1,5 +1,33 @@
 spring:
   application:
     name: api-gateway
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      routes:
+        - id: reservation
+          uri: lb://reservation
+          predicates:
+            - Path=/reservations/**
+
   config:
     import: optional:configserver:http://localhost:8888
+#Gateway port config
+server:
+  port: 9056
+
+#Eureka Config
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+#Debugging
+logging:
+  level:
+    org.springframework: DEBUG
