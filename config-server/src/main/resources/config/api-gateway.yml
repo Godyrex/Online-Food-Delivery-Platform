@@ -23,7 +23,6 @@ spring:
           - Path=/eureka/**
           filters:
             - RewritePath=/eureka(?<remaining>.*), /${remaining}
-
         # Demo Service Route
         - id: demo
           uri: lb://DEMO
