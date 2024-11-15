@@ -17,6 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/register")
 @Slf4j
+@CrossOrigin(origins = "http://localhost:4200")
 public class RegistrationController {
 
     private final RestTemplate restTemplate;

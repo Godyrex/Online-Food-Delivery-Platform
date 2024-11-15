@@ -1,9 +1,13 @@
-
 import { Component, OnInit } from '@angular/core';
-import { ChatService } from '../chat.service';
+import { ChatService } from '../foodchat/chat.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
+
+import {stringifyTask} from '@angular/compiler-cli/ngcc/src/execution/tasks/utils';
+import {User} from '../chat/chat.service';
+import {delayResponse} from 'angular-in-memory-web-api/delay-response';
 
 @Component({
   selector: 'app-chat',
@@ -13,14 +17,16 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
+  user: any;
+  response: any = this.chatService.getUserInfo();
   messages: any[] = [];
   messageContent = '';
-  senderId = 'user2';
+  senderId = 'user4';
   receiverId = '';
   users = [
     { id: 'user1', name: 'User 1', unreadCount: 0 },
-    { id: 'user3', name: 'User 3', unreadCount: 0 },
-    { id: 'user4', name: 'User 4', unreadCount: 0 }
+    { id: 'user2', name: 'User 2', unreadCount: 0 },
+    { id: 'user3', name: 'User 3', unreadCount: 0 }
   ];
   unreadMessagesCount = 0;
   showNotifications = false;
@@ -31,12 +37,19 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMessages();
+    this.chatService.getUserInfo().subscribe(
+        response => {
+          this.user = response;
+        }
+    );
+    console.log('ahhhhhhhhhhhhhhhhh', this.user);
   }
+
 
   // Méthode de filtrage des utilisateurs
   filterUsers() {
     this.filteredUsers = this.users.filter(user =>
-        user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
@@ -56,13 +69,13 @@ export class ChatComponent implements OnInit {
   getMessages() {
     if (this.receiverId) {
       this.chatService.getMessages(this.senderId, this.receiverId)
-          .subscribe(
-              (messages) => {
-                this.messages = messages;
-                this.checkForNewMessages(messages);
-              },
-              (error) => console.error('Erreur lors de la récupération des messages:', error)
-          );
+        .subscribe(
+          (messages) => {
+            this.messages = messages;
+            this.checkForNewMessages(messages);
+          },
+          (error) => console.error('Erreur lors de la récupération des messages:', error)
+        );
     }
   }
 
@@ -70,11 +83,11 @@ export class ChatComponent implements OnInit {
   clearChat() {
     if (this.receiverId) {
       this.chatService.clearChat(this.senderId, this.receiverId).subscribe(
-          () => {
-            this.messages = []; // Vider les messages côté client
-            console.log('Conversation supprimée avec succès');
-          },
-          (error) => console.error('Erreur lors de la suppression de la conversation:', error)
+        () => {
+          this.messages = []; // Vider les messages côté client
+          console.log('Conversation supprimée avec succès');
+        },
+        (error) => console.error('Erreur lors de la suppression de la conversation:', error)
       );
     }
   }
@@ -82,7 +95,7 @@ export class ChatComponent implements OnInit {
   // Vérification des nouveaux messages non lus
   checkForNewMessages(messages: any[]) {
     const newMessages = messages.filter(message =>
-        message.senderId !== this.senderId && !message.isRead
+      message.senderId !== this.senderId && !message.isRead
     );
 
     // Mettre à jour le compteur de messages non lus pour le destinataire
@@ -105,8 +118,8 @@ export class ChatComponent implements OnInit {
     }
 
     this.chatService.updateMessagesAsRead(this.receiverId).subscribe(
-        () => console.log('Messages marqués comme lus'),
-        (error) => console.error('Erreur lors de la mise à jour des messages', error)
+      () => console.log('Messages marqués comme lus'),
+      (error) => console.error('Erreur lors de la mise à jour des messages', error)
     );
   }
 
@@ -122,12 +135,12 @@ export class ChatComponent implements OnInit {
       };
 
       this.chatService.sendMessage(message).subscribe(
-          () => {
-            this.messages.push(message);
-            this.messageContent = '';
-            this.checkForNewMessages(this.messages);
-          },
-          (error) => console.error('Erreur lors de l\'envoi du message:', error)
+        () => {
+          this.messages.push(message);
+          this.messageContent = '';
+          this.checkForNewMessages(this.messages);
+        },
+        (error) => console.error('Erreur lors de l\'envoi du message:', error)
       );
     }
   }
@@ -152,4 +165,3 @@ export class ChatComponent implements OnInit {
     console.log('Input a perdu le focus');
   }
 }
-

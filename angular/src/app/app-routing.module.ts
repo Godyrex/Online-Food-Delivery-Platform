@@ -4,6 +4,7 @@ import { AuthLayoutComponent } from './shared/components/layouts/auth-layout/aut
 import { AuthGuard } from './shared/services/auth.guard';
 import { BlankLayoutComponent } from './shared/components/layouts/blank-layout/blank-layout.component';
 import { AdminLayoutSidebarCompactComponent } from './shared/components/layouts/admin-layout-sidebar-compact/admin-layout-sidebar-compact.component';
+import {ChatComponent} from './views/foodchat/chat.component';
 
 const adminRoutes: Routes = [
     {
@@ -32,7 +33,7 @@ const adminRoutes: Routes = [
     },
     {
       path: 'chat',
-      loadChildren: () => import('./views/chat/chat.module').then(m => m.ChatModule)
+      loadChildren: () => import('./views/foodchat/chat.module').then(m => m.ChatModule)
     },
     {
       path: 'contacts',
@@ -62,7 +63,7 @@ const routes: Routes = [
     redirectTo: 'dashboard/v1',
     pathMatch: 'full'
   },
-  {
+    {
     path: '',
     component: AuthLayoutComponent,
     children: [
@@ -88,6 +89,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: adminRoutes
   },
+    {
+        path: 'chat',
+        component: ChatComponent
+    },
   {
     path: '**',
     redirectTo: 'others/404'

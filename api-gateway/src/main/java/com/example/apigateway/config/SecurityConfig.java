@@ -19,6 +19,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers("/register/**")
                         .permitAll()
+                        .pathMatchers("/api/chat/**")
+                        .permitAll()
                         .anyExchange().authenticated()
                 ).oauth2ResourceServer((oauth) -> oauth
                         .jwt(Customizer.withDefaults()))

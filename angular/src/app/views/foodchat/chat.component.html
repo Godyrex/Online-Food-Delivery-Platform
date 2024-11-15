@@ -1,0 +1,40 @@
+<div class="chat-container">
+  <!-- Liste des utilisateurs -->
+  <div class="user-list">
+    <h3>Users</h3>
+    <!-- Barre de recherche -->
+    <input type="text" class="search-bar" placeholder="Search users..." [(ngModel)]="searchTerm" (input)="filterUsers()" />
+    <!-- Liste des utilisateurs -->
+    <ul>
+      <li *ngFor="let user of filteredUsers" (click)="selectReceiver(user.id)">
+        <div class="user-avatar">{{ user.name[0] }}</div>
+        <div class="user-name">{{ user.name }}</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Section des messages -->
+  <div class="chat-section">
+    <!-- Bouton pour effacer la conversation -->
+    <button (click)="clearChat()">Effacer la conversation</button>
+
+    <div class="messages">
+      <div *ngFor="let message of messages" [ngClass]="{'message': true, 'sent': message.senderId === senderId, 'received': message.senderId !== senderId}">
+        <!-- Affichage du nom de l'utilisateur ou "Vous" -->
+        <div class="message-sender">
+          <strong>
+            {{ message.senderId === senderId ? 'Vous' : getUserName(message.senderId) }}
+          </strong>
+        </div>
+        <p>{{ message.content }}</p>
+        <span class="message-timestamp">{{ message.timestamp | date:'shortTime' }}</span>
+      </div>
+    </div>
+
+    <!-- Zone de saisie de message -->
+    <div class="input-section">
+      <textarea [(ngModel)]="messageContent" placeholder="Type a message..." rows="2"></textarea>
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
