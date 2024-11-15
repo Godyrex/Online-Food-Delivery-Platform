@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthLayoutComponent } from './shared/components/layouts/auth-layout/auth-layout.component';
-import { AuthGaurd } from './shared/services/auth.gaurd';
+import { AuthGuard } from './shared/services/auth.guard';
 import { BlankLayoutComponent } from './shared/components/layouts/blank-layout/blank-layout.component';
 import { AdminLayoutSidebarCompactComponent } from './shared/components/layouts/admin-layout-sidebar-compact/admin-layout-sidebar-compact.component';
+import {ChatComponent} from './views/foodchat/chat.component';
 
 const adminRoutes: Routes = [
     {
@@ -32,7 +33,7 @@ const adminRoutes: Routes = [
     },
     {
       path: 'chat',
-      loadChildren: () => import('./views/chat/chat.module').then(m => m.ChatModule)
+      loadChildren: () => import('./views/foodchat/chat.module').then(m => m.ChatModule)
     },
     {
       path: 'contacts',
@@ -49,7 +50,11 @@ const adminRoutes: Routes = [
     {
         path: 'icons',
         loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
-    }
+    },
+    {
+        path: 'settings',
+        loadChildren: () => import('./views/settings/settings.module').then(m => m.SettingsModule)
+    },
   ];
 
 const routes: Routes = [
@@ -58,7 +63,7 @@ const routes: Routes = [
     redirectTo: 'dashboard/v1',
     pathMatch: 'full'
   },
-  {
+    {
     path: '',
     component: AuthLayoutComponent,
     children: [
@@ -81,9 +86,13 @@ const routes: Routes = [
   {
     path: '',
     component: AdminLayoutSidebarCompactComponent,
-    canActivate: [AuthGaurd],
+    canActivate: [AuthGuard],
     children: adminRoutes
   },
+    {
+        path: 'chat',
+        component: ChatComponent
+    },
   {
     path: '**',
     redirectTo: 'others/404'

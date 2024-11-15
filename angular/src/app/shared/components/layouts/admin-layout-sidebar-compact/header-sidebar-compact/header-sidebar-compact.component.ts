@@ -10,11 +10,11 @@ import { AuthService } from "src/app/shared/services/auth.service";
 })
 export class HeaderSidebarCompactComponent implements OnInit {
   notifications: any[];
-
+  user: any;
   constructor(
-    private navService: NavigationService,
-    public searchService: SearchService,
-    private auth: AuthService
+      private navService: NavigationService,
+      public searchService: SearchService,
+      protected auth: AuthService
   ) {
     this.notifications = [
       {
@@ -63,7 +63,13 @@ export class HeaderSidebarCompactComponent implements OnInit {
     ];
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.auth.getUserInfo().subscribe(
+        response => {
+          this.user = response;
+        }
+    );
+  }
 
   toggelSidebar() {
     const state = this.navService.sidebarState;
