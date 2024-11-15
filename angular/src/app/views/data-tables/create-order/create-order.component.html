@@ -1,60 +1,90 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5>Create Order Item</h5>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Card for Creating Order -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Create Order</h4>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <!-- Select Product -->
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Select Product:</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" [(ngModel)]="selectedProductId" [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let product of products" [value]="product.id">
+                                        {{ product.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Select Order -->
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Select Order:</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" [(ngModel)]="selectedOrderId" [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let order of orders" [value]="order.id">
+                                        {{ order.id }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Quantity Input -->
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Quantity:</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" [(ngModel)]="orderItemQuantity" [ngModelOptions]="{standalone: true}" min="1">
+                            </div>
+                        </div>
+
+                        <!-- Price Input -->
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Price:</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" [(ngModel)]="orderItemPrice" [ngModelOptions]="{standalone: true}" min="0">
+                            </div>
+                        </div>
+
+                        <!-- Add Item Button -->
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary" (click)="addOrderItem()">
+                                Add Item to Order
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="card-body">
-                <!-- Form to create order item -->
-                <form (ngSubmit)="createOrderItem()">
-                    <!-- Order Selection -->
-                    <div class="form-group">
-                        <label for="orderSelect">Order</label>
-                        <select class="form-control" id="orderSelect" [(ngModel)]="selectedOrderId" name="orderId" (change)="onProductSelect()">
-                            <option *ngFor="let order of orders" [value]="order.id">{{ order.id }}</option>
-                        </select>
-                    </div>
 
-                    <!-- Product Selection -->
-                    <div class="form-group">
-                        <label for="productSelect">Product</label>
-                        <select class="form-control" id="productSelect" [(ngModel)]="selectedProductId" name="productId" (change)="onProductSelect()">
-                            <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-                        </select>
-                    </div>
-
-                    <!-- Quantity -->
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" [(ngModel)]="quantity" name="quantity" min="1" required />
-                    </div>
-
-                    <!-- Price -->
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="number" class="form-control" id="price" [(ngModel)]="price" name="price" [value]="selectedProductPrice" readonly />
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary mt-3">Create Order Item</button>
-                </form>
-
-                <!-- Displaying the Created Order Items -->
-                <h3 class="mt-5">Created Order Items</h3>
-                <div *ngIf="orderItems.length > 0">
-                    <ul>
-                        <li *ngFor="let item of orderItems">
-                            <strong>Order ID:</strong> {{ item.orderId }} |
-                            <strong>Product ID:</strong> {{ item.productId }} |
-                            <strong>Item ID:</strong> {{ item.id }} |
-                            <strong>Quantity:</strong> {{ item.quantity }} |
-                            <strong>Price:</strong> ${{ item.price }}
+            <!-- Card for Order Items List -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Order Items</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li *ngFor="let item of orderItems" class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Product:</strong> {{ item.productName }},
+                                <strong>Order:</strong> {{ item.orderId }},
+                                <strong>Quantity:</strong> {{ item.quantity }},
+                                <strong>Price:</strong> {{ item.price | currency }}
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm" (click)="removeOrderItem(item)">
+                                Remove
+                            </button>
                         </li>
                     </ul>
                 </div>
-                <div *ngIf="orderItems.length === 0">
-                    <p>No order items created yet.</p>
-                </div>
+            </div>
+
+            <!-- Create Order Button -->
+            <div class="text-right">
+                <button type="button" class="btn btn-success" (click)="createOrderWithItems()">
+                    Create Order
+                </button>
             </div>
         </div>
     </div>

@@ -44,21 +44,24 @@ public class OrderItemController {
         return orderItem != null ? ResponseEntity.ok(orderItem) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping()
-    public ResponseEntity<OrderItem> createOrderItem(@RequestBody OrderItemDTO orderItemDTO) {
-        Order order = orderRepository.findById(orderItemDTO.getOrderId())
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+    @PostMapping("/{orderId}/add-item")
+    public ResponseEntity<Order> createOrderItem(
+            @PathVariable Long orderId,
+            @RequestBody OrderItemDTO orderItemDTO
+    ) {
+        Order order = orderRepository.findById(orderId).orElse(new Order());
         Product product = productRepository.findById(orderItemDTO.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        OrderItem newOrderItem = new OrderItem();
-        newOrderItem.setOrder(order);
-        newOrderItem.setProduct(product);
-        newOrderItem.setQuantity(orderItemDTO.getQuantity());
-        newOrderItem.setPrice(orderItemDTO.getPrice());
-        orderItemRepository.save(newOrderItem);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newOrderItem);
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrder(order);
+        orderItem.setProduct(product);
+        orderItem.setQuantity(orderItemDTO.getQuantity());
+        orderItem.setPrice(orderItemDTO.getPrice());
+        order.getItems().add(orderItem);
+        orderRepository.save(order);
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<OrderItem> updateOrderItem(@PathVariable Long id, @RequestBody OrderItem orderItem) {

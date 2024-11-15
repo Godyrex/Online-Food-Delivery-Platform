@@ -1,5 +1,7 @@
 package com.example.springboot.controllers;
+import com.example.springboot.entities.CreateOrderRequest;
 import com.example.springboot.entities.Order;
+import com.example.springboot.entities.OrderItem;
 import com.example.springboot.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
     public class OrderController {
         private final OrderService orderService;
-
+        @PostMapping("/addItems")
+        public Order addItemsToOrder(@RequestBody CreateOrderRequest createOrderRequest) {
+        List<OrderItem> orderItems = createOrderRequest.getItems();
+        return orderService.addItemsToOrder(createOrderRequest.getCustomerId(), orderItems);
+        }
         @Autowired
         public OrderController(OrderService orderService) {
             this.orderService = orderService;
@@ -32,7 +38,11 @@ import java.util.List;
         public Order createOrder(@RequestBody Order order) {
             return orderService.createOrder(order);
         }
-
+    @PostMapping("/submit")
+    public ResponseEntity<Order> submitOrder(@RequestBody Order order) {
+        Order savedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(savedOrder);
+    }
         @PutMapping("/{id}")
         public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
             Order updatedOrder = orderService.updateOrder(id, order);
@@ -44,5 +54,10 @@ import java.util.List;
             orderService.deleteOrder(id);
             return ResponseEntity.noContent().build();
         }
+    @PostMapping("/create")
+    public Order createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
+        List<OrderItem> orderItems = createOrderRequest.getItems();
+        return orderService.createOrder(createOrderRequest.getCustomerId(), orderItems);
+    }
     }
 

@@ -1,39 +1,71 @@
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Order List</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer ID</th>
-                            <th>Order Date</th>
-                            <th>Status</th>
-                            <th>Items</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let order of orders">
-                            <td>{{ order.id }}</td>
-                            <td>{{ order.customerId }}</td>
-                            <td>{{ order.orderDate | date }}</td>
-                            <td>{{ order.status }}</td>
-                            <td>
-                                <ul>
-                                    <li *ngFor="let item of order.items">
-                                        Product ID: {{ item.productId }} | Quantity: {{ item.quantity }} | Price: {{ item.price | currency }}
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+<div class="order-list-container">
+    <h1>Order List</h1>
+
+    <!-- Display Orders -->
+    <div *ngIf="orders.length > 0">
+        <h2>Existing Orders</h2>
+        <div *ngFor="let order of orders">
+            <div>
+                <strong>Order ID:</strong> {{ order.id }}
             </div>
+            <div>
+                <strong>Customer ID:</strong> {{ order.customerId }}
+            </div>
+            <div>
+                <strong>Status:</strong> {{ order.status }}
+            </div>
+            <ul>
+                <li *ngFor="let item of order.items">
+                    {{ item.quantity }} x {{ item.productId }} @ {{ item.price }}
+                </li>
+            </ul>
+            <hr />
         </div>
     </div>
+
+    <!-- Add New Order Section -->
+    <div *ngIf="newOrderItems.length > 0">
+        <h2>Create New Order</h2>
+        <div *ngFor="let item of newOrderItems">
+            <div>
+                Product ID: {{ item.productId }} | Quantity: {{ item.quantity }} | Total Price: {{ item.price }}
+            </div>
+        </div>
+        <button (click)="createNewOrder()" [disabled]="newOrderItems.length === 0">Create Order</button>
+    </div>
+
+    <hr />
+
+    <!-- Product Selection Form -->
+    <div>
+        <h3>Select Product</h3>
+
+        <!-- Product Dropdown -->
+        <select [(ngModel)]="selectedProductId" (change)="onProductSelect(selectedProductId)">
+            <option [ngValue]="null" disabled>Select a Product</option>
+            <option *ngFor="let product of products" [value]="product.id">{{ product.name }} - ${{ product.price }}</option>
+        </select>
+
+        <!-- Quantity Input -->
+        <div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" [(ngModel)]="quantity" min="1" />
+        </div>
+
+        <div>
+            <p><strong>Price per Unit:</strong> ${{ price }}</p>
+            <p><strong>Total Price:</strong> ${{ price * quantity }}</p>
+        </div>
+
+        <!-- Add Item Button -->
+        <button (click)="addOrderItem(selectedProductId, quantity, price)" [disabled]="!selectedProductId || quantity <= 0">
+            Add Item to Order
+        </button>
+    </div>
+
+    <!-- No Products Available Section -->
+    <div *ngIf="products.length === 0">
+        <p>Loading products...</p>
+    </div>
+
 </div>
