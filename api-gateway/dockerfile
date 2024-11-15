@@ -1,0 +1,15 @@
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the Config Server JAR file into the container
+# Replace 'config-server-0.0.1-SNAPSHOT.jar' with the actual JAR filename
+COPY target/api-gateway-0.0.1-SNAPSHOT.jar api-gateway.jar
+
+# Expose the port that the Config Server will run on
+EXPOSE 8099
+
+# Define the entry point to run the Config Server
+ENTRYPOINT ["java", "-jar", "api-gateway.jar"]
