@@ -1,0 +1,133 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0.27
+    container_name: mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root_password
+    networks:
+      - keycloak-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.0
+    container_name: keycloak
+    ports:
+      - 8080:8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://mysql:3306/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: password
+    depends_on:
+      - mysql
+    networks:
+      - keycloak-network
+    command: start-dev
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - 80:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root_password
+    depends_on:
+      - mysql
+    networks:
+      - keycloak-network
+
+
+  # Config Server
+  config-server:
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    container_name: config-server
+    ports:
+      - 8888:8888
+    networks:
+      - keycloak-network
+
+  # Eureka Discovery Server
+  discovery-server:
+    build:
+      context: ./discovery-server
+      dockerfile: Dockerfile
+    container_name: discovery-server
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - 8761:8761
+    networks:
+      - keycloak-network
+    depends_on:
+      - config-server
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - 8099:8099
+    networks:
+      - keycloak-network
+    depends_on:
+      - config-server
+      - discovery-server
+
+  # User Service
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - 8082:8082
+    networks:
+      - keycloak-network
+    depends_on:
+      - config-server
+      - discovery-server
+      - mysql
+
+  # Reservations Service
+  reservations-service:
+    build:
+      context: ./reservations-service
+      dockerfile: Dockerfile
+    container_name: reservations-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - 8085:8085
+    networks:
+      - keycloak-network
+    depends_on:
+      - config-server
+      - discovery-server
+      - mysql
+
+
+
+networks:
+  keycloak-network:
+
+volumes:
+  mysql-data:
