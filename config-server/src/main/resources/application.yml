@@ -1,13 +1,21 @@
 server:
   port: 8888
+
 spring:
   application:
     name: config-server
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/customerOrder
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   profiles:
     active: native
+
   cloud:
     config:
       server:
         native:
           search-locations: classpath:/config
-

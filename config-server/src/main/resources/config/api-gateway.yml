@@ -46,7 +46,7 @@ spring:
           predicates:
             - Path=/eureka/**
           filters:
-            - RewritePath=/eureka(?<remaining>.*), /${remaining}
+            - RewritePath=/eureka(?<remaining>.*), /${remaining}       
         # Demo Service Route
         - id: demo
           uri: lb://DEMO
@@ -64,6 +64,10 @@ spring:
           uri: lb://reservation
           predicates:
             - Path=/reservations/**
+        - id: SpringBoot
+          uri: lb://springboot
+          predicates:
+            - Path=/SpringBoot/**
 
 # Keycloak configuration
 keycloak:

@@ -7,6 +7,9 @@ import { WizardComponent } from './wizard/wizard.component';
 import { InputMaskComponent } from './input-mask/input-mask.component';
 import { InputGroupsComponent } from './input-groups/input-groups.component';
 import { FormLayoutsComponent } from './form-layouts/form-layouts.component';
+import {ProductFormComponent} from "./product-form/product-form.component";
+import {EditProductComponent} from "./edit-product/edit-product.component";
+import {CreateProductComponent} from "./create-product/create-product.component";
 
 const routes: Routes = [
   {
@@ -36,7 +39,21 @@ const routes: Routes = [
   {
     path: 'img-cropper',
     component: AppImgCropperComponent
+  },
+  {
+    path: 'Product',
+    component: ProductFormComponent
+  },
+  {
+    path: 'editProduct',
+    component: EditProductComponent
+  },
+  {
+    path: 'createProduct',
+    component: CreateProductComponent
   }
+
+
 ];
 
 @NgModule({

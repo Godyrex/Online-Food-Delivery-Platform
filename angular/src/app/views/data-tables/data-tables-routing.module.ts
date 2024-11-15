@@ -4,6 +4,10 @@ import { FullscreenTableComponent } from './fullscreen-table/fullscreen-table.co
 import { PagingTableComponent } from './paging-table/paging-table.component';
 import { FilterTableComponent } from './filter-table/filter-table.component';
 import { ListPaginationComponent } from './list-pagination/list-pagination.component';
+import {ProductComponent} from "./product/product.component";
+import {CreateOrderComponent} from "./create-order/create-order.component";
+import {CreateProductComponent} from "../forms/create-product/create-product.component";
+import {OrderListComponent} from "./order-list/order-list.component";
 
 const routes: Routes = [
   {
@@ -21,7 +25,24 @@ const routes: Routes = [
   {
     path: 'filter',
     component: FilterTableComponent
-  }
+  },
+    {
+      path: 'Product',
+        component: ProductComponent
+    },
+  {
+    path:'createProduct',
+    component:CreateProductComponent
+  },
+  {
+    path:'createOrder',
+    component:CreateOrderComponent
+  },
+  {
+    path:'orderList',
+    component:OrderListComponent
+  },
+
 ];
 
 @NgModule({
